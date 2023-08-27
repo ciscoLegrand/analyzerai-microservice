@@ -1,3 +1,4 @@
+import os
 class DefaultConfig:
     DEBUG = False
     TESTING = False

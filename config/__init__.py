@@ -1,10 +1,12 @@
 import os
 from .environments.default import DefaultConfig
+from .environments.development import DevelopmentConfig
+from .environments.production import ProductionConfig
 
 config = {
-    'development': 'config.environments.development.DevelopmentConfig',
-    'production': 'config.environments.production.ProductionConfig',
-    'default': 'config.environments.default.DefaultConfig'
+    'default': DefaultConfig,
+    'development': DevelopmentConfig,
+    'production': ProductionConfig
 }
 
 def configure_app(app):

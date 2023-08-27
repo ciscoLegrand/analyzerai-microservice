@@ -1,3 +1,4 @@
+import os
 from .default import DefaultConfig
 
 class DevelopmentConfig(DefaultConfig):

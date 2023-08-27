@@ -24,4 +24,4 @@ USER appuser
 EXPOSE 8081
 
 # Comando para ejecutar la aplicación
-CMD ["python", "main.py"]
+CMD ["python", "run.py"]
