@@ -1,0 +1,14 @@
+{% extends "layouts/app.html" %}
+
+{% block content %}
+<button id="welcomeButton">¡Haz click aquí!</button>
+<p id="welcomeMessage"></p>
+
+<script>
+    $("#welcomeButton").click(function(){
+        $.post("/welcome-message", function(data){
+            $("#welcomeMessage").text(data.message);
+        });
+    });
+</script>
+{% endblock %}
