@@ -1,14 +1,56 @@
+import os
+import stat
 from flask import Flask
 from config import config
+from app.utils.logger import initialize_logger, log_info, log_error, log_warning, log_debug
+
 from app.routes import home_routes
+
+from app.handlers.error_handlers import (
+    handle_400_error,
+    handle_401_error,
+    handle_403_error,
+    handle_404_error,
+    handle_405_error,
+    handle_408_error,
+    handle_500_error
+)
+
 
 def create_app(config_name='default'):
     app = Flask(__name__, template_folder="../templates")
-    
-    # Configuración basada en el nombre
     app.config.from_object(config[config_name])
-    
-    # Registrar el Blueprint
+
+    # usar decorador para utilizar el error handler a nivel de aplicación
+    @app.errorhandler(400)
+    def bad_request_error(error):
+        return handle_400_error(error)
+
+    @app.errorhandler(401)
+    def unauthorized_error(error):
+        return handle_401_error(error)
+
+    @app.errorhandler(403)
+    def forbidden_error(error):
+        return handle_403_error(error)
+
+    @app.errorhandler(404)
+    def not_found_error(error):
+        return handle_404_error(error)
+
+    @app.errorhandler(405)
+    def method_not_allowed_error(error):
+        return handle_405_error(error)
+
+    @app.errorhandler(408)
+    def request_timeout_error(error):
+        return handle_408_error(error)
+
+    @app.errorhandler(500)
+    def internal_server_error(error):
+        return handle_500_error(error)
+
+    # Registrar routes con Blueprint
     app.register_blueprint(home_routes.home_bp)
 
     return app

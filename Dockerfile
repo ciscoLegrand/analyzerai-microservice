@@ -6,18 +6,20 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 # Establecer una carpeta de trabajo en el contenedor
-WORKDIR /app
+WORKDIR /code
 
 # Copiar el archivo de dependencias e instalarlas primero para aprovechar la cache de Docker
 COPY requirements.txt .
 RUN echo "🔧 Instalando dependencias..." && \
     pip install --no-cache-dir -r requirements.txt
 
+# Crear un usuario no root para ejecutar la aplicación
+RUN useradd -u 1000 appuser
+
 # Copiar el resto de los archivos del proyecto al contenedor
 COPY . .
 
-# Crear un usuario no root para ejecutar la aplicación
-RUN useradd appuser && chown -R appuser /app
+# Cambiar al usuario no root
 USER appuser
 
 # Exponer el puerto que utiliza la aplicación

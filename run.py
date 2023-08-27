@@ -1,7 +1,20 @@
 import os
 from app import create_app
+import logging
 
-ENVIRONMENT = os.getenv('ENVIRONMENT', 'default')
+# Configura el registro
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logger = logging.getLogger()
+
+ENVIRONMENT = os.getenv('FLASK_ENV', 'default')
+
+# Registrar las variables de entorno
+logger.info(f"🌐 Cargando entorno: {ENVIRONMENT}")
+
+# Si quieres ver todas las variables de entorno, puedes hacer un bucle:
+for key, value in os.environ.items():
+    logger.info(f"🔧 {key} = {value}")
+
 app = create_app(ENVIRONMENT)
 
 if __name__ == "__main__":

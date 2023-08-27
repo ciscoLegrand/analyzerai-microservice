@@ -6,9 +6,11 @@ services:
       context: .
       dockerfile: Dockerfile
     volumes:
-      - .:/app
+      # Monta tu directorio actual en '/code' dentro del contenedor
+      - .:/code
     ports:
       - "8081:8081"
-    environment:
-      - FLASK_ENV=development
+    # Usa el archivo .env para cargar las variables de entorno en el contenedor
+    env_file:
+      - .env
     command: python run.py
