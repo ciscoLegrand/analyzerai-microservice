@@ -1,0 +1,42 @@
+{% extends "layouts/app.html" %}
+
+{% block content %}
+<style>
+  /* Estilos para que parezca una tabla */
+  section {
+      display: flex;
+      flex-direction: column;
+  }
+  ul {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: no-wrap;
+      overflow-x: auto;
+      border: 2px solid #ededed;
+  }
+  li {
+      border: 1px solid #ccc;
+      padding: 15px;
+  }
+  h1 {
+      margin-bottom: 10px;
+      font-size: 26px;
+      color: #333;
+  }
+</style>
+
+<h1>Total Respuestas: {{ total_responses }}</h1>
+<section>
+    <ul>
+        {% for answer in answers %}
+            <li>
+                <p><strong>ID:</strong> {{ answer["_id"] }}</p>
+                <p><strong>Descripción:</strong> {{ answer["description"] }}</p>
+                <!-- Agregar más campos aquí -->
+            </li>
+        {% endfor %}
+    </ul>
+</section>
+{% endblock %}

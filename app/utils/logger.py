@@ -2,10 +2,10 @@ import logging
 import os
 from logging.handlers import RotatingFileHandler
 
-log_directory = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'logs')
+# log_directory = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'logs')
 
-if not os.path.exists(log_directory):
-    os.makedirs(log_directory)
+# if not os.path.exists(log_directory):
+#     os.makedirs(log_directory)
 
 logger = logging.getLogger(__name__)
 
@@ -20,11 +20,11 @@ def initialize_logger():
     logger.addHandler(ch)
     
     # Configurar RotatingFileHandler (archivo)
-    environment = os.getenv("ENVIRONMENT", "development")
+    # environment = os.getenv("ENVIRONMENT", "development")
 
-    fh = RotatingFileHandler(os.path.join(log_directory, f"{environment}.log"), maxBytes=10*1024*1024, backupCount=5)
-    fh.setFormatter(formatter)
-    logger.addHandler(fh)
+    # fh = RotatingFileHandler(os.path.join(log_directory, f"{environment}.log"), maxBytes=10*1024*1024, backupCount=5)
+    # fh.setFormatter(formatter)
+    # logger.addHandler(fh)
 
 def log_info(message):
     detailed_message = f"🔵 [INFO] {message}"
