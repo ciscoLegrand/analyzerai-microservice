@@ -5,8 +5,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hola Mundo</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        .main {
+            transition: margin-top 0.3s ease-out;
+        }
+    </style>
+    <script>
+        function adjustMainMargin() {
+            // Obtener la altura del navbar
+            var navbarHeight = $(".navbar").outerHeight(true);
+            // Establecer el margen superior de .main igual a la altura del navbar
+            $(".main").css("margin-top", navbarHeight + "px");
+        }
+        
+        // Ajustar el margen superior de .main al cargar la página
+        $(document).ready(function() {
+            adjustMainMargin();
+            
+            // También ajustar el margen superior de .main cuando el contenido del navbar cambie
+            $("#welcomeButton").click(function() {
+                // Esperar un poco para que el mensaje se cargue antes de ajustar el margen
+                setTimeout(adjustMainMargin, 100);
+            });
+        });
+        
+    </script>
 </head>
 <body>
-    {% block content %}{% endblock %}
+    {% include "layouts/shared/navbar.html" %}
+    <div class="main">
+        {% block content %}{% endblock %}
+    </div>
 </body>
 </html>

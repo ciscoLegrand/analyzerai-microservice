@@ -1,0 +1,78 @@
+<style>
+/* Estilos del navbar */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: rgba(128, 128, 128, 0.8);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+  display:flex;
+  flex-direction: column;
+}
+
+.navbar-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+}
+
+/* Estilos para los botones en el navbar */
+.navbar-content .button {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.navbar-content .button:hover {
+  background-color: #45a049;
+}
+.flex-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 2rem;
+  align-items: center;
+  width: 100%;
+}
+#welcomeMessage {
+  width: 100%;
+    margin-top: 5rem;
+    text-align: center;
+    color: #555555;
+    font-size: 36px;
+    font-weight: 900;
+    display: flex;
+    justify-content: center;
+}
+</style>
+
+<nav class="navbar">
+  <div class="navbar-content">
+    <div class="flex-row">
+      <button id="welcomeButton" class="button">¡Haz click aquí!</button>
+      <form action="/answers" method="GET">
+          <button id="get_answers" class="button">Respuestas</button>
+      </form>
+      <form action="/word-frequencies/" method="GET">
+        <button id="get_word_frequencies" class="button">Obtener Frecuencias de Palabras</button>
+      </form>
+    </div>
+  </div>
+  <p id="welcomeMessage"></p>
+</nav>
+<script>
+  $("#welcomeButton").click(function(){
+      $.post("/welcome-message", function(data){
+          $("#welcomeMessage").text(data.message);
+      });
+  });
+</script>

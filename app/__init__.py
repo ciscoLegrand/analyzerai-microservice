@@ -4,7 +4,7 @@ from flask import Flask
 from config import config
 from app.utils.logger import initialize_logger, log_info, log_error, log_warning, log_debug
 
-from app.routes import home_routes, answers_routes
+from app.routes import home_routes, answers_routes, word_frequencies_routes
 
 from app.handlers.error_handlers import (
     handle_400_error,
@@ -53,5 +53,6 @@ def create_app(config_name='default'):
     # Registrar routes con Blueprint
     app.register_blueprint(home_routes.home_bp)
     app.register_blueprint(answers_routes.answers_bp)
+    app.register_blueprint(word_frequencies_routes.word_frequencies_bp)
     return app
 

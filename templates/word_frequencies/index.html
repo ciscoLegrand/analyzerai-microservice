@@ -1,0 +1,88 @@
+{% extends "layouts/app.html" %}
+
+{% block content %}
+<style>
+    .table {
+        display: flex;
+        flex-direction: column;
+        width: 100%; /* Asegurar que la tabla tenga un ancho completo */
+    }
+
+    .header-row, .row {
+        display: flex;
+        border: 1px solid #ddd;
+        border-bottom: none;
+    }
+
+    .header-row:last-child, .row:last-child {
+        border-bottom: 1px solid #ddd;
+    }
+
+    .header-row div, .row div {
+        flex: 1;
+        padding: 8px;
+        text-align: left;
+        border-left: 1px solid #ddd;
+        
+        white-space: nowrap; /* Impide el salto de línea */
+        overflow: hidden; /* Oculta el contenido que excede el tamaño de la celda */
+        text-overflow: ellipsis; /* Agrega puntos suspensivos */
+    }
+
+    .header-row div:first-child, .row div:first-child {
+        border-left: none;
+    }
+
+    .header-row {
+        background-color: #f2f2f2;
+    }
+
+    .row:nth-child(odd) {
+        background-color: #f9f9f9;
+    }
+
+    .row:nth-child(even) {
+        background-color: #e6e6e6;
+    }
+</style>
+
+<div class="w-full container-flex">
+    <h1 class="w-full title">Total Respuestas {{ total }}</h1>
+</div>
+
+<ul class="table">
+    <li class="header-row">
+        <div>Enterprise ID</div>
+        <div>Year</div>
+        <div>Quarter</div>
+        <div>Word</div>
+        <div>Frequency Word</div>
+        <div>Frequency Comments</div>
+        <div>Frequency Employees</div>
+        <div>Total Answers</div>
+        <div>Total Comments</div>
+        <div>Total Employees</div>
+        <div>Total Employees Commenting</div>
+        <div>Word Frequency Ratio</div>
+        <div>Employee Commenting Ratio</div>
+    </li>
+    {% for wf in word_frequencies %}
+    <li class="row">
+        <div>{{ wf.enterprise_id }}</div>
+        <div>{{ wf.year }}</div>
+        <div>{{ wf.quarter }}</div>
+        <div>{{ wf.word }}</div>
+        <div>{{ wf.frequency_word }}</div>
+        <div>{{ wf.frequency_comments }}</div>
+        <div>{{ wf.frequency_employees }}</div>
+        <div>{{ wf.total_answers }}</div>
+        <div>{{ wf.total_comments }}</div>
+        <div>{{ wf.total_employees }}</div>
+        <div>{{ wf.total_employees_commenting }}</div>
+        <div>{{ "{:.3f}".format(wf.word_frequency_ratio()) }}</div>
+        <div>{{ "{:.3f}".format(wf.employee_commenting_ratio()) }}</div>
+    </li>
+    {% endfor %}
+</ul>
+
+{% endblock %}

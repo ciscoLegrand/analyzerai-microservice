@@ -3,111 +3,26 @@
 {% block content %}
 
 <style>
-    /* Estilo del loader */
-    .loader {
-        border: 8px solid #f3f3f3; /* Fondo del loader */
-        border-top: 8px solid #3498db; /* Color del loader */
-        border-radius: 50%;
-        width: 50px;
-        height: 50px;
-        animation: spin 1s linear infinite; /* Animación de giro */
-    }
-    
-    /* Animación de giro */
-    @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-    }
-    
-    /* Estilo para ocultar el loader */
-    .hidden {
-        display: none;
-    }
-  
-    .button {
-        background-color: #4CAF50;
-        border: none;
-        color: white;
-        padding: 15px 32px;
-        margin: 10px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 16px;
-    }
-
-    .button:hover {
-        background-color: #3e8e41;
-        cursor: pointer;
-    }   
-
-    .message {
-        margin-top: 40px;
-        font-size: 26px;
-        color: #6cf333;
-    }
-    .buttons-container {
-        width: 100%;
-        text-align: center;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        gap: 24px;
-        padding: 40px;
-        margin: 40px;
-    }
     #welcomeMessage {
         width: 100%;
         margin-top: 40px;
         font-size: 26px;
-        color: #6cf333;
-    }
-    .flex-row {
+        font-weight: 900;
         display: flex;
-        flex-direction: row;
         justify-content: center;
-        align-items: center;
-        gap: 24px;
     }
-
 </style>
-
-<div class="buttons-container">
-    <div class="flex-ro">
-        <button id="welcomeButton" class="button">¡Haz click aquí!</button>
-        <form action="/ai/get-answers" method="GET">
-            <button id="get_answers" class="button">Respuestas</button>
-        </form>
-    </div>
-    
-    <p id="welcomeMessage"></p>
-
-    <div id="loader" class="hidden">
-        <div class="loader"></div>
-    </div>
-</div>
-
 <script>
     $("#welcomeButton").click(function(){
         $.post("/welcome-message", function(data){
             $("#welcomeMessage").text(data.message);
         });
     });
-    //$("#get_answers").click(function(){
-    //    // Mostrar el loader mientras se espera la respuesta
-    //    $("#loader").removeClass("hidden");
-    //
-    //    $.get("/ai/get-answers", function(data){
-    //        // Ocultar el loader cuando se recibe la respuesta
-    //       $("#loader").addClass("hidden");
-    //
-    //        // Resto del código para manejar la respuesta
-    //        var answersList = $("#answersList");
-    //        answersList.empty();
-    //    });
-    //}); 
-</script>
+  </script>
+    <p id="welcomeMessage"></p>
+</div>
+
+
 
 
   

@@ -1,13 +1,17 @@
 import os
+from dotenv import load_dotenv
 from app import create_app
 import logging
+# from config.initializers.nltk_downloader import download_nltk_data
 
+# download_nltk_data()
+load_dotenv()
 # Configura el registro
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger()
 
-ENVIRONMENT = os.getenv('FLASK_ENV', 'default')
-BASE_URL = os.getenv('BASE_URL', '')
+ENVIRONMENT = os.getenv('FLASK_ENV', 'development')
+BASE_URL = os.getenv(f'{ENVIRONMENT.upper()}_URL', 'DEVELOPMENT_URL')
 
 # Registrar las variables de entorno
 logger.info(f"🌐 Cargando entorno: {ENVIRONMENT}")

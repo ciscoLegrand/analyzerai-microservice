@@ -1,2 +1,2 @@
 from .answer import Answer
-from .frequently_word import FrequentlyWord
+from .word_frequency import WordFrequency

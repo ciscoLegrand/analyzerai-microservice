@@ -1,16 +1,13 @@
-from flask import Blueprint, render_template
+from flask import Blueprint
 from app.controllers import answers_controller
-import app.utils.logger as logger
 
 # Definir el Blueprint
-answers_bp = Blueprint('answers', __name__, url_prefix='/ai')
+answers_bp = Blueprint('answers', __name__, url_prefix='/answers')
 
 @answers_bp.route('/')
-def index():
-    logger.log_info("Has hecho click en answers page!")
+def get_answers():
     return answers_controller.index()
 
-@answers_bp.route('/get-answers', methods=['GET'])
-def get_answers():
-    response = answers_controller.get_answers()
-    return response
+@answers_bp.route('/frequently-words', methods=['GET'])
+def get_most_frequent_words():
+    return answers_controller.most_frequent_words()
