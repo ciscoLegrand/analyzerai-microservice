@@ -1,4 +1,5 @@
 import pandas as pd
+import traceback
 from collections import Counter, defaultdict
 import app.utils.logger as logger
 from app.models.word_frequency import WordFrequency
@@ -14,14 +15,16 @@ class AnswerAnalyzer:
             filtered_words = [word for word in words if word.isalpha() and word not in stop_words]
             return filtered_words
         except Exception as e:
-            logger.log_error(f"🔥 Error durante la tokenización y limpieza del texto: {e}")
+            tb_str = traceback.format_exc()
+            logger.log_error(f"🔥[AnswerAnalyzer.tokenize_and_clean] Error durante la tokenización y limpieza del texto: {e}\n{tb_str}")
             return []
 
     @staticmethod
     def analyze_row(row, enterprise_id, enterprise_data, stop_words):
         logger.log_info("📝 Analizando respuesta individual...")
         try:
-            description = row['description']
+            logger.log_debug(f"🐳 Respuesta row: {row}\n🐳 Enterprise data: {enterprise_data}") 
+            description = row['custom_field']
             employee_id = row['employee_id']
             tokens = AnswerAnalyzer.tokenize_and_clean(description, stop_words)
 
@@ -46,7 +49,8 @@ class AnswerAnalyzer:
             logger.log_info("📊 Respuesta individual analizada")
             enterprise_data[enterprise_id] = enterprise_info
         except Exception as e:
-            logger.log_error(f"🔥 Error durante el análisis de la respuesta individual: {e}")
+            tb_str = traceback.format_exc()
+            logger.log_error(f"🔥[AnswerAnalyzer.analyze_row] Error durante el análisis de la respuesta individual: {e}\n{tb_str}")
 
     @staticmethod
     def analyze_answers(answers, enterprise_id, num_common_words=10):
@@ -61,7 +65,7 @@ class AnswerAnalyzer:
             
             info = enterprise_data.get(enterprise_id, {})
             result = []
-            
+            logger.log_info(f"📊 Enterprise data: {info}")
             # Asegúrate de que num_common_words es un entero
             num_common_words = int(num_common_words)
 
@@ -71,7 +75,7 @@ class AnswerAnalyzer:
             for word, count in sorted_words:
                 data = {
                     'year': '2023',
-                    'quarter': 'Q1',
+                    'quarter': '1',
                     'word': word,
                     'frequency_word': count,
                     'frequency_employees': len(info['frequency_employees'][word]),
@@ -88,5 +92,6 @@ class AnswerAnalyzer:
             
             return result
         except Exception as e:
-            logger.log_error(f"🔥 Error durante el análisis completo de respuestas: {e}")
+            tb_str = traceback.format_exc()
+            logger.log_error(f"🔥[AnswerAnalyzer.analyze_answers] Error durante el análisis completo de respuestas: {e}\n{tb_str}")
             return []

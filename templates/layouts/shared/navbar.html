@@ -35,7 +35,7 @@
 .navbar-content .button:hover {
   background-color: #45a049;
 }
-.flex-row {
+.nav-row {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -47,23 +47,35 @@
   width: 100%;
     margin-top: 5rem;
     text-align: center;
-    color: #555555;
+    color: #007321;
     font-size: 36px;
     font-weight: 900;
     display: flex;
     justify-content: center;
 }
+#get_word_frequencies {
+  display: block;
+}
+.nav-button {
+  background-color: #1d9740;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
 </style>
 
 <nav class="navbar">
   <div class="navbar-content">
-    <div class="flex-row">
-      <button id="welcomeButton" class="button">¡Haz click aquí!</button>
-      <form action="/answers" method="GET">
-          <button id="get_answers" class="button">Respuestas</button>
-      </form>
-      <form action="/word-frequencies/" method="GET">
-        <button id="get_word_frequencies" class="button">Obtener Frecuencias de Palabras</button>
+    <div class="nav-row">
+      <button id="welcomeButton" class="nav-button">¡Haz click aquí!</button>
+
+      <form action="/enterprises" method="GET">
+        <button id="get_enterprises" class="nav-button">Empresas</button>
       </form>
     </div>
   </div>

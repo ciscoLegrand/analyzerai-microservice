@@ -43,4 +43,4 @@ def log_debug(message):
     logger.debug(detailed_message)
 
 # Inicializa el logger al importar el módulo
-initialize_logger()
+# initialize_logger()

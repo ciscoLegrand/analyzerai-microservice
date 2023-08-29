@@ -3,8 +3,11 @@ import stat
 from flask import Flask
 from config import config
 from app.utils.logger import initialize_logger, log_info, log_error, log_warning, log_debug
+from app.utils import date_utils
 
-from app.routes import home_routes, answers_routes, word_frequencies_routes
+
+
+from app.routes import home_routes, answers_routes, word_frequencies_routes, enterprises_routes
 
 from app.handlers.error_handlers import (
     handle_400_error,
@@ -20,7 +23,7 @@ from app.handlers.error_handlers import (
 def create_app(config_name='default'):
     app = Flask(__name__, template_folder="../templates")
     app.config.from_object(config[config_name])
-
+    app.secret_key = 'super_fancy_secret_key'
     # usar decorador para utilizar el error handler a nivel de aplicación
     @app.errorhandler(400)
     def bad_request_error(error):
@@ -50,9 +53,13 @@ def create_app(config_name='default'):
     def internal_server_error(error):
         return handle_500_error(error)
 
+    #utils/helpers
+    app.jinja_env.filters['quarter_dates'] = date_utils.quarter_dates
+
     # Registrar routes con Blueprint
     app.register_blueprint(home_routes.home_bp)
     app.register_blueprint(answers_routes.answers_bp)
     app.register_blueprint(word_frequencies_routes.word_frequencies_bp)
+    app.register_blueprint(enterprises_routes.enterprises_bp)
     return app
 

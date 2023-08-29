@@ -1,0 +1,119 @@
+{% extends "layouts/app.html" %}
+
+{% block content %}
+<style>
+    .w-full {
+        width: 100%;
+    }
+    .w-quarter {
+        width: 25%;
+    }
+    .flex-row {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        gap:24px;
+    }
+    .flex-col {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        gap:24px;
+    }
+    .table {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .header-row, .row {
+        display: flex;
+        border: 1px solid #ddd;
+        border-bottom: none;
+    }
+
+    .header-row:last-child, .row:last-child {
+        border-bottom: 1px solid #ddd;
+    }
+
+    .header-row div, .row div {
+        padding: 8px;
+        text-align: left;
+        border-left: 1px solid #ddd;
+        
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .header-row div:first-child, .row div:first-child {
+        border-left: none;
+    }
+
+    .header-row {
+        background-color: #f2f2f2;
+    }
+
+    .row:nth-child(odd) {
+        background-color: #f9f9f9;
+    }
+
+    .row:nth-child(even) {
+        background-color: #e6e6e6;
+    }
+    .button {
+        background-color: #6330f0;
+        border: none;
+        color: white;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        width: 70%;
+      }
+      .container-flex {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        gap:22px;
+        padding: 1.5rem;
+    }
+</style>
+
+<div class="w-full container-flex">
+    <h1 class="w-full title">Enterprises</h1>
+</div>
+
+<ul class="table">
+    <li class="header-row">
+        <div class="w-quarter">Enterprise ID</div>
+        <div class="w-quarter">Enterprise Name</div>
+        <div class="w-full">Quarters</div>
+    </li>
+    {% for enterprise in enterprises %}
+    <li class="row">
+        <div class="w-quarter">{{ enterprise._id }}</div>
+        <div class="w-quarter">{{ enterprise.name }}</div>
+        <div class="w-full">
+            <ul class="flex-row w-full">
+                {% for quarter in [1,2,3,4] %}
+                {% set start_date, end_date = 2023|quarter_dates(quarter) %}
+                <li class="flex-col">
+                    <a href="{{ url_for('answers.get_answers', enterprise_id=enterprise._id, start_date=start_date.strftime('%d-%m-%Y'), end_date=end_date.strftime('%d-%m-%Y')) }}" class="button">
+                       Respuestas Q{{ quarter }}
+                    </a>
+                    <a href="{{ url_for('word_frequencies.get_word_frequencies', enterprise_id=enterprise._id, start_date=start_date.strftime('%d-%m-%Y'), end_date=end_date.strftime('%d-%m-%Y')) }}" class="button">
+                        Word Freq. Q{{ quarter }}
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </li>
+    {% endfor %}
+    
+</ul>
+
+{% endblock %}

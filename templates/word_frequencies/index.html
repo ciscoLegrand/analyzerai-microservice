@@ -4,8 +4,9 @@
 <style>
     .table {
         display: flex;
+        justify-content: center;
         flex-direction: column;
-        width: 100%; /* Asegurar que la tabla tenga un ancho completo */
+        width: 90%; /* Asegurar que la tabla tenga un ancho completo */
     }
 
     .header-row, .row {
@@ -17,14 +18,23 @@
     .header-row:last-child, .row:last-child {
         border-bottom: 1px solid #ddd;
     }
-
+    .haeder-row div {
+        display: flex;
+        justify-content: start;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+    .row div {
+        display: flex;
+        justify-content: start;
+        align-items: center;
+        flex-wrap: wrap;
+    }
     .header-row div, .row div {
         flex: 1;
         padding: 8px;
         text-align: left;
         border-left: 1px solid #ddd;
-        
-        white-space: nowrap; /* Impide el salto de línea */
         overflow: hidden; /* Oculta el contenido que excede el tamaño de la celda */
         text-overflow: ellipsis; /* Agrega puntos suspensivos */
     }
@@ -44,14 +54,34 @@
     .row:nth-child(even) {
         background-color: #e6e6e6;
     }
+    .container-flex {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        gap:32px;
+        padding: 1.5rem;
+    }
+    input.readonly-input {
+        flex: 1;
+        padding: 8px;
+        border: none;
+        background: none;
+        text-align: left;
+        white-space: nowrap; 
+        overflow: hidden;
+        text-overflow: ellipsis; 
+        cursor: default;
+    }
 </style>
-
 <div class="w-full container-flex">
     <h1 class="w-full title">Total Respuestas {{ total }}</h1>
+    <!-- Podrías mantener un botón para enviar todos si lo necesitas -->
 </div>
 
 <ul class="table">
     <li class="header-row">
+        <div>Acción</div>  <!-- Botón de Publicar -->
         <div>Enterprise ID</div>
         <div>Year</div>
         <div>Quarter</div>
@@ -66,23 +96,26 @@
         <div>Word Frequency Ratio</div>
         <div>Employee Commenting Ratio</div>
     </li>
+
     {% for wf in word_frequencies %}
-    <li class="row">
-        <div>{{ wf.enterprise_id }}</div>
-        <div>{{ wf.year }}</div>
-        <div>{{ wf.quarter }}</div>
-        <div>{{ wf.word }}</div>
-        <div>{{ wf.frequency_word }}</div>
-        <div>{{ wf.frequency_comments }}</div>
-        <div>{{ wf.frequency_employees }}</div>
-        <div>{{ wf.total_answers }}</div>
-        <div>{{ wf.total_comments }}</div>
-        <div>{{ wf.total_employees }}</div>
-        <div>{{ wf.total_employees_commenting }}</div>
-        <div>{{ "{:.3f}".format(wf.word_frequency_ratio()) }}</div>
-        <div>{{ "{:.3f}".format(wf.employee_commenting_ratio()) }}</div>
-    </li>
+    <form action="{{ url_for('word_frequencies.post_word_frequencies') }}" method="post">
+        <li class="row">
+            <div><button type="submit" class="button">Publicar</button></div>
+            <input type="text" name="enterprise_id" value="{{wf.enterprise_id}}" hidden>
+            <input class="readonly-input" type="text" name="year" value="{{wf.year}}" readonly>
+            <input class="readonly-input" type="text" name="quarter" value="{{wf.quarter}}" readonly>
+            <input class="readonly-input" type="text" name="word" value="{{wf.word}}" readonly>
+            <input class="readonly-input" type="text" name="frequency_word" value="{{wf.frequency_word}}" readonly>
+            <input class="readonly-input" type="text" name="frequency_comments" value="{{wf.frequency_comments}}" readonly>
+            <input class="readonly-input" type="text" name="frequency_employees" value="{{wf.frequency_employees}}" readonly>
+            <input class="readonly-input" type="text" name="total_answers" value="{{wf.total_answers}}" readonly>
+            <input class="readonly-input" type="text" name="total_comments" value="{{wf.total_comments}}" readonly>
+            <input class="readonly-input" type="text" name="total_employees" value="{{wf.total_employees}}" readonly>
+            <input class="readonly-input" type="text" name="total_employees_commenting" value="{{wf.total_employees_commenting}}" readonly>
+            <input class="readonly-input" type="text" name="word_frequency_ratio" value="{{ '{:.3f}'.format(wf.word_frequency_ratio()) }}" readonly>
+            <input class="readonly-input" type="text" name="employee_commenting_ratio" value="{{ '{:.3f}'.format(wf.employee_commenting_ratio()) }}" readonly>
+        </li>
+    </form>
     {% endfor %}
 </ul>
-
 {% endblock %}
